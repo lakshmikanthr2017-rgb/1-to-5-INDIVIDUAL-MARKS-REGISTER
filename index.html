@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="kn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ವಿದ್ಯಾರ್ಥಿ ಮೌಲ್ಯಮಾಪನ ಅಂಕಪಟ್ಟಿ - Student Assessment Portal</title>
+    <!-- Google Fonts for Kannada typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Kannada:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #1a5f7a;
+            --primary-dark: #134559;
+            --secondary-color: #0288d1;
+            --accent-color: #2e7d32;
+            --bg-color: #f4f7f6;
+            --card-bg: #ffffff;
+            --text-color: #2c3e50;
+            --border-color: #cfd8dc;
+            --danger-color: #d32f2f;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Noto Sans Kannada', 'Segoe UI', Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            padding: 20px;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        /* Header Section */
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .school-header-input {
+            width: 100%;
+            padding: 10px 15px;
+            font-size: 1.4rem;
+            font-weight: bold;
+            border: 2px solid rgba(255,255,255,0.4);
+            border-radius: 8px;
+            background: rgba(255,255,255,0.15);
+            color: white;
+            text-align: center;
+            margin-bottom: 10px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .school-header-input::placeholder {
+            color: rgba(255,255,255,0.75);
+        }
+
+        .school-header-input:focus {
+            background: rgba(255,255,255,0.25);
+            border-color: #ffffff;
+        }
+
+        .header-title {
+            text-align: center;
+            font-size: 1.2rem;
+            opacity: 0.95;
+            letter-spacing: 0.5px;
+        }
+
+        /* Form & Cards */
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 22px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            border: 1px solid var(--border-color);
+        }
+
+        .card-title {
+            font-size: 1.15rem;
+            color: var(--primary-color);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 2px solid #eef2f5;
+            padding-bottom: 8px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-group label {
+            font-size: 0.92rem;
+            font-weight: 600;
+            color: #455a64;
+        }
+
+        .form-control {
+            padding: 10px 12px;
+            font-size: 0.95rem;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            outline: none;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+            background-color: #fff;
+        }
+
+        .form-control:focus {
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 3px rgba(2, 136, 209, 0.15);
+        }
+
+        .btn-container {
+            margin-top: 18px;
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 10px 24px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-primary {
+            background-color: var(--accent-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #256528;
+            box-shadow: 0 2px 6px rgba(46, 125, 50, 0.3);
+        }
+
+        .btn-secondary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        /* Table Styles */
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            font-size: 0.92rem;
+        }
+
+        th, td {
+            padding: 12px 14px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background-color: #f0f4f8;
+            color: var(--primary-color);
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .text-center { text-align: center; }
+
+        .action-btn {
+            background: none;
+            border: none;
+            color: var(--danger-color);
+            cursor: pointer;
+            font-size: 1rem;
+            padding: 4px 8px;
+        }
+
+        /* Footer Meta Info */
+        .meta-section {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            background: white;
+            padding: 16px 20px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .prepared-by-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+        }
+
+        .prepared-by-box input {
+            padding: 8px 12px;
+            font-size: 0.95rem;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            width: 260px;
+        }
+
+        .print-prepared-display {
+            display: none;
+            font-weight: bold;
+            font-size: 1rem;
+            margin-top: 30px;
+            text-align: right;
+        }
+
+        .print-school-display {
+            display: none;
+            text-align: center;
+            font-size: 1.6rem;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #000;
+        }
+
+        .print-class-display {
+            display: none;
+            text-align: center;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        /* PRINT MEDIA STYLES */
+        @media print {
+            @page {
+                size: A4;
+                margin: 15mm 12mm;
+            }
+
+            body { background: white; color: black; padding: 0; }
+
+            header, .data-entry-card, .btn-container, .action-column, .action-btn, .prepared-by-box {
+                display: none !important;
+            }
+
+            .card { border: none; box-shadow: none; padding: 0; }
+
+            .print-school-display, .print-class-display { display: block !important; }
+
+            .print-prepared-display { display: block !important; }
+
+            table { width: 100%; border: 1px solid #000; margin-top: 15px; }
+
+            th, td { border: 1px solid #000 !important; padding: 8px 10px; color: #000; }
+
+            th { background-color: #f2f2f2 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- Header / School Info Input -->
+    <header>
+        <input type="text" id="schoolNameInput" class="school-header-input" placeholder="ಶಾಲೆಯ ಹೆಸರು ನಮೂದಿಸಿ (Enter School Name)" oninput="updatePrintHeader()">
+        <div class="header-title">ವಿದ್ಯಾರ್ಥಿ ಮೌಲ್ಯಮಾಪನ ಅಂಕಪಟ್ಟಿ (Student Assessment Data Sheet)</div>
+    </header>
+
+    <!-- Data Entry Form Box -->
+    <div class="card data-entry-card">
+        <div class="card-title">
+            <span>📝</span> ಮಾಹಿತಿ ದಾಖಲಾತಿ ವಿಭಾಗ (Data Entry Screen)
+        </div>
+        <form id="assessmentForm" onsubmit="handleFormSubmit(event)">
+            <div class="form-grid">
+                <!-- Class Dropdown -->
+                <div class="form-group">
+                    <label for="classSelect">ತರಗತಿ (Class) *</label>
+                    <select id="classSelect" class="form-control" required onchange="handleClassChange()">
+                        <option value="">-- ತರಗತಿ ಆಯ್ಕೆಮಾಡಿ --</option>
+                        <option value="1st Class">1st Class (1ನೇ ತರಗತಿ)</option>
+                        <option value="2nd Class">2nd Class (2ನೇ ತರಗತಿ)</option>
+                        <option value="3rd Class">3rd Class (3ನೇ ತರಗತಿ)</option>
+                        <option value="4th Class">4th Class (4ನೇ ತರಗತಿ)</option>
+                        <option value="5th Class">5th Class (5ನೇ ತರಗತಿ)</option>
+                    </select>
+                </div>
+
+                <!-- Subject Dropdown -->
+                <div class="form-group">
+                    <label for="subjectSelect">ವಿಷಯ (Subject) *</label>
+                    <select id="subjectSelect" class="form-control" required>
+                        <option value="">-- ವಿಷಯ ಆಯ್ಕೆಮಾಡಿ --</option>
+                        <option value="ಕನ್ನಡ">ಕನ್ನಡ (Kannada)</option>
+                        <option value="ಇಂಗ್ಲಿಷ್">ಇಂಗ್ಲಿಷ್ (English)</option>
+                        <option value="ಗಣಿತ">ಗಣಿತ (Mathematics)</option>
+                        <option value="EVS">EVS (ಪರಿಸರ ಅಧ್ಯಯನ)</option>
+                    </select>
+                </div>
+
+                <!-- Student Name Input -->
+                <div class="form-group">
+                    <label for="studentName">ವಿದ್ಯಾರ್ಥಿಯ ಹೆಸರು (Student Name) *</label>
+                    <input type="text" id="studentName" class="form-control" placeholder="ಹೆಸರನ್ನು ನಮೂದಿಸಿ" required>
+                </div>
+
+                <!-- Assessment Type Dropdown -->
+                <div class="form-group">
+                    <label for="assessmentType">ಮೌಲ್ಯಮಾಪನ ವಿಧ (Assessment) *</label>
+                    <select id="assessmentType" class="form-control" required>
+                        <option value="">-- ಮೌಲ್ಯಮಾಪನ ಆಯ್ಕೆಮಾಡಿ --</option>
+                        <option value="FA-1">FA-1</option>
+                        <option value="FA-2">FA-2</option>
+                        <option value="SA-1">SA-1</option>
+                        <option value="FA-3">FA-3</option>
+                        <option value="FA-4">FA-4</option>
+                        <option value="SA-2">SA-2</option>
+                    </select>
+                </div>
+
+                <!-- Max Marks -->
+                <div class="form-group">
+                    <label for="maxMarks">ಗರಿಷ್ಠ ಅಂಕ (Max Marks) *</label>
+                    <input type="number" id="maxMarks" class="form-control" min="1" max="100" placeholder="ಉದಾ: 25, 50, 100" required>
+                </div>
+
+                <!-- Obtained Marks -->
+                <div class="form-group">
+                    <label for="obtainedMarks">ಪಡೆದ ಅಂಕ (Obtained Marks) *</label>
+                    <input type="number" id="obtainedMarks" class="form-control" min="0" max="100" placeholder="ಪಡೆದ ಅಂಕ" required>
+                </div>
+            </div>
+
+            <div class="btn-container">
+                <button type="submit" class="btn btn-primary">💾 ಸಂಗ್ರಹಿಸಿ (Save Data)</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Data Sheet Table Section -->
+    <div class="card">
+        <div id="printSchoolTitle" class="print-school-display"></div>
+        <div id="printClassTitle" class="print-class-display"></div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 10px;">
+            <div class="card-title" style="border: none; padding: 0; margin: 0;">
+                <span>📊</span> ಮೌಲ್ಯಮಾಪನ ದತ್ತಾಂಶ ಶೀಟ್ (Data Sheet)
+            </div>
+            <div class="btn-container" style="margin: 0;">
+                <button onclick="window.print()" class="btn btn-secondary">🖨️ ಪ್ರಿಂಟ್ ಮಾಡಿ (Print Data Sheet)</button>
+            </div>
+        </div>
+
+        <div class="table-responsive">
+            <table id="dataTable">
+                <thead>
+                    <tr>
+                        <th class="text-center" style="width: 60px;">ಕ್ರ.ಸಂ.</th>
+                        <th>ವಿದ್ಯಾರ್ಥಿಯ ಹೆಸರು (Student Name)</th>
+                        <th class="text-center">ತರಗತಿ (Class)</th>
+                        <th class="text-center">ವಿಷಯ (Subject)</th>
+                        <th class="text-center">ಮೌಲ್ಯಮಾಪನ</th>
+                        <th class="text-center">ಗರಿಷ್ಠ ಅಂಕ</th>
+                        <th class="text-center">ಪಡೆದ ಅಂಕ</th>
+                        <th class="text-center">ಶೇಕಡಾವಾರು (%)</th>
+                        <th class="text-center action-column">ಕ್ರಿಯೆ</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    <tr id="emptyRow">
+                        <td colspan="9" class="text-center" style="color: #78909c; padding: 20px;">
+                            ಯಾವ ದತ್ತಾಂಶವೂ ಲಭ್ಯವಿಲ್ಲ. ದಯವಿಟ್ಟು ಮೇಲಿನ ಫಾರ್ಮ್ ಬಳಸಿ ದತ್ತಾಂಶ ನಮೂದಿಸಿ.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Footer Meta Info -->
+        <div class="meta-section">
+            <div class="prepared-by-box">
+                <label for="preparedByInput">ತಯಾರಕರು (Prepared By):</label>
+                <input type="text" id="preparedByInput" placeholder="LAKSHMIKANTH R" oninput="updatePreparedByPrint()">
+            </div>
+        </div>
+
+        <div id="printPreparedDisplay" class="print-prepared-display"></div>
+    </div>
+</div>
+
+<script>
+    let currentClass = "";
+    let dataRecords = [];
+
+    // Clear sheet on class change
+    function handleClassChange() {
+        const classSelect = document.getElementById("classSelect");
+        const newClass = classSelect.value;
+
+        if (dataRecords.length > 0 && newClass !== currentClass) {
+            const confirmClear = confirm("ತರಗತಿ ಬದಲಾಯಿಸಲಾಗಿದೆ! ದತ್ತಾಂಶ ಶೀಟ್‌ನ ಎಲ್ಲಾ ಮಾಹಿತಿಯನ್ನು ಅಳಿಸಬೇಕೇ?");
+            if (confirmClear) {
+                dataRecords = [];
+                renderTable();
+            } else {
+                classSelect.value = currentClass;
+                return;
+            }
+        }
+        currentClass = newClass;
+        updatePrintHeader();
+    }
+
+    // Save Data Handler
+    function handleFormSubmit(event) {
+        event.preventDefault();
+
+        const maxMarks = parseFloat(document.getElementById("maxMarks").value);
+        const obtainedMarks = parseFloat(document.getElementById("obtainedMarks").value);
+
+        if (obtainedMarks > maxMarks) {
+            alert("ಪಡೆದ ಅಂಕಗಳು ಗರಿಷ್ಠ ಅಂಕಗಳಿಗಿಂತ ಹೆಚ್ಚಿರಬಾರದು!");
+            return;
+        }
+
+        const record = {
+            id: Date.now(),
+            className: document.getElementById("classSelect").value,
+            subject: document.getElementById("subjectSelect").value,
+            studentName: document.getElementById("studentName").value.trim(),
+            assessmentType: document.getElementById("assessmentType").value,
+            maxMarks: maxMarks,
+            obtainedMarks: obtainedMarks
+        };
+
+        dataRecords.push(record);
+        renderTable();
+
+        document.getElementById("studentName").value = "";
+        document.getElementById("obtainedMarks").value = "";
+        document.getElementById("studentName").focus();
+    }
+
+    function renderTable() {
+        const tbody = document.getElementById("tableBody");
+        tbody.innerHTML = "";
+
+        if (dataRecords.length === 0) {
+            tbody.innerHTML = `
+                <tr id="emptyRow">
+                    <td colspan="9" class="text-center" style="color: #78909c; padding: 20px;">
+                        ಯಾವ ದತ್ತಾಂಶವೂ ಲಭ್ಯವಿಲ್ಲ. ದಯವಿಟ್ಟು ಮೇಲಿನ ಫಾರ್ಮ್ ಬಳಸಿ ದತ್ತಾಂಶ ನಮೂದಿಸಿ.
+                    </td>
+                </tr>`;
+            return;
+        }
+
+        dataRecords.forEach((item, index) => {
+            const percentage = ((item.obtainedMarks / item.maxMarks) * 100).toFixed(1);
+            const tr = document.createElement("tr");
+
+            tr.innerHTML = `
+                <td class="text-center">${index + 1}</td>
+                <td><strong>${escapeHtml(item.studentName)}</strong></td>
+                <td class="text-center">${escapeHtml(item.className)}</td>
+                <td class="text-center">${escapeHtml(item.subject)}</td>
+                <td class="text-center">${escapeHtml(item.assessmentType)}</td>
+                <td class="text-center">${item.maxMarks}</td>
+                <td class="text-center">${item.obtainedMarks}</td>
+                <td class="text-center">${percentage}%</td>
+                <td class="text-center action-column">
+                    <button class="action-btn" onclick="deleteRecord(${item.id})" title="Delete">🗑️</button>
+                </td>
+            `;
+            tbody.appendChild(tr);
+        });
+
+        updatePrintHeader();
+    }
+
+    function deleteRecord(id) {
+        dataRecords = dataRecords.filter(item => item.id !== id);
+        renderTable();
+    }
+
+    function updatePrintHeader() {
+        const schoolName = document.getElementById("schoolNameInput").value.trim();
+        document.getElementById("printSchoolTitle").innerText = schoolName ? schoolName : "";
+        document.getElementById("printClassTitle").innerText = currentClass ? "ತರಗತಿ: " + currentClass : "";
+    }
+
+    /* Requirement: If user types a name, show "Prepared by: Name". If blank, hide in print. */
+    function updatePreparedByPrint() {
+        const preparedInput = document.getElementById("preparedByInput").value.trim();
+        const printDisplay = document.getElementById("printPreparedDisplay");
+
+        if (preparedInput !== "") {
+            printDisplay.innerText = "Prepared by: " + preparedInput;
+            printDisplay.style.display = "block";
+        } else {
+            printDisplay.innerText = "";
+            printDisplay.style.display = "none";
+        }
+    }
+
+    function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.innerText = text;
+        return div.innerHTML;
+    }
+
+    window.onload = function() {
+        updatePreparedByPrint();
+    };
+</script>
+
+</body>
+</html>
